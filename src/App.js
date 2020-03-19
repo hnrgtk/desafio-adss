@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-import Search from "./components/Search";
-import Borrow from "./components/Borrow";
+import { Search, Borrow, Payment, Finished } from "./pages/";
 
 import Axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -11,18 +10,22 @@ class App extends Component {
     super();
     this.state = {
       query: "",
-      result: []
+      result: [],
+      clickedRow: {}
     };
   }
 
-  handleInputSearch = event => {
-    const query = event.target.value;
-    this.setState({ query: query });
+  handleInputSearch = value => {
+    this.setState({ query: value });
+  };
+
+  handleTopState = clickedRow => {
+    this.setState(clickedRow);
   };
 
   fetchSearchResults = () => {
     const query = this.state.query;
-    Axios.get("http://localhost:3000/data").then(res => {
+    Axios.get("http://localhost:3000/client").then(res => {
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].cpf === query) {
           this.setState({ result: res.data[i] });
@@ -44,11 +47,21 @@ class App extends Component {
             />
           </Route>
           <Route path="/solicitar">
-            <Borrow result={this.state.result} />
+            <Borrow
+              result={this.state.result}
+              onClickRow={this.handleTopState}
+            />
+          </Route>
+          <Route path="/pagamento">
+            <Payment />
+          </Route>
+          <Route path="/finalizado">
+            <Finished data={this.state.clickedRow} result={this.state.result} />
           </Route>
         </Switch>
       </Router>
     );
   }
 }
+
 export default App;
