@@ -41,7 +41,7 @@ const Payment = props => {
           variant="outlined"
           size="small"
           isNumericString
-          format="####.####.####.####"
+          format="#### #### #### ####"
           mask="_"
         />
         <NumberFormat

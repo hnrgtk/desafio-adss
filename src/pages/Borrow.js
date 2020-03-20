@@ -17,6 +17,7 @@ import {
 import { makeStyles, darken } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { Header } from "../components";
+import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     background: "#228A95",
     color: "white",
-    fontFamily: "sans-serif",
+    fontFamily: "sans-serif"
   },
   button: {
     background: "#F29C49",
@@ -93,7 +94,10 @@ function Borrow({ onClickRow }) {
   }
 
   function onClickCond() {
-    if (input >= 300 && input <= 10000) {
+    if (
+      parseFloat(input.replace(/,/g, ".")) >= 300 &&
+      parseFloat(input.replace(/,/g, ".")) <= 10000
+    ) {
       sendToApi();
     } else {
       return null;
@@ -112,12 +116,16 @@ function Borrow({ onClickRow }) {
     >
       <Header />
       <div style={{ marginTop: 65 }} className={styles.buttonConteiner}>
-        <TextField
+        <NumberFormat
+          customInput={TextField}
           label="Valor Desejado"
           variant="outlined"
           size="small"
           onChange={handleInput}
           value={input}
+          isNumericString
+          // thousandSeparator={true}
+          decimalSeparator=","
           helperText="Apenas valores entre 300 e 10.000"
         />
         <Button
@@ -188,7 +196,7 @@ function Borrow({ onClickRow }) {
         </Table>
       </TableContainer>
       {state.showBar && (
-        <div className={styles.statusBar} >
+        <div className={styles.statusBar}>
           <p style={{ marginRight: 10 }}>Nome: Tabela Padrão</p>
           <p style={{ marginRight: 10 }}>
             Parcelas: {state.clickedTableRow.installments}
@@ -203,7 +211,7 @@ function Borrow({ onClickRow }) {
             size="medium"
             color="primary"
             className={styles.button}
-            style={{marginTop: 30}}
+            style={{ marginTop: 30 }}
           >
             Avançar
           </Button>
