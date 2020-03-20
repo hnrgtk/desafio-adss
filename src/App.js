@@ -25,7 +25,9 @@ class App extends Component {
 
   fetchSearchResults = () => {
     const query = this.state.query;
-    Axios.get("http://localhost:3000/client").then(res => {
+    Axios.get(
+      "https://my-json-server.typicode.com/hnrtk/desafio-adss/client"
+    ).then(res => {
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].cpf === query) {
           this.setState({ result: res.data[i] });
