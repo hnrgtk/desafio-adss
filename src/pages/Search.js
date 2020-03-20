@@ -1,6 +1,6 @@
 import React from "react";
 import CardSearch from "./CardSearch";
-import { ButtonAi } from "../components";
+import { ButtonAi, Header } from "../components";
 
 import { TextField } from "@material-ui/core";
 import NumberFormat from "react-number-format";
@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: "sans-serif",
   }
 }));
 
@@ -22,20 +23,21 @@ const Search = props => {
   }
   return (
     <>
-    <div className={styles.buttonContainer}>
-      <NumberFormat
-        customInput={TextField}
-        label="CPF"
-        variant="outlined"
-        size="small"
-        value={props.query}
-        onValueChange={onChangeInput}
-        isNumericString
-        format="###.###.###-##"
-        mask="_"
-      />
-      <ButtonAi onClick={props.fetch}>Buscar</ButtonAi>
-    </div>
+      <Header />
+      <div style={{ marginTop: 55 }} className={styles.buttonContainer}>
+        <NumberFormat
+          customInput={TextField}
+          label="CPF"
+          variant="outlined"
+          size="small"
+          value={props.query}
+          onValueChange={onChangeInput}
+          isNumericString
+          format="###.###.###-##"
+          mask="_"
+        />
+        <ButtonAi onClick={props.fetch}>Buscar</ButtonAi>
+      </div>
       <div
         style={{
           display: "flex",
