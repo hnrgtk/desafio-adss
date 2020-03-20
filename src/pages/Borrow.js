@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   statusBar: {
     position: "absolute",
     bottom: 0,
-    height: 50,
+    height: 75,
     width: "100%",
     display: "flex",
     justifyContent: "center",
@@ -43,6 +43,7 @@ const useStyles = makeStyles(theme => ({
   button: {
     background: "#F29C49",
     margin: theme.spacing(1),
+    marginBottom: 30,
     textTransform: "initial",
     "&:hover": {
       background: darken("#F29C49", 0.1)
@@ -64,12 +65,14 @@ function Borrow({ onClickRow }) {
     value: 0,
     tableData: [],
     showBar: false,
-    clickedTableRow: {},
+    clickedTableRow: {}
   });
 
   const styles = useStyles();
 
   const { value, tableData } = state;
+
+  const [input, setInput] = useState(0);
 
   async function sendToApi() {
     const { data } = await api.get("/rateTable/1");
@@ -80,10 +83,22 @@ function Borrow({ onClickRow }) {
     setState(oldState => ({
       ...oldState,
       showBar: true,
-      clickedTableRow: rowData,
+      clickedTableRow: rowData
     }));
     onClickRow({ clickedRow: rowData, value });
   };
+
+  function handleInput(e) {
+    setInput(e.target.value);
+  }
+
+  function onClickCond() {
+    if (input >= 300 && input <= 10000) {
+      sendToApi();
+    } else {
+      return null;
+    }
+  }
 
   return (
     <div
@@ -91,14 +106,22 @@ function Borrow({ onClickRow }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        flexDirection: "column"
+        flexDirection: "column",
+        height: "100%"
       }}
     >
       <Header />
-      <div style={{ marginTop: 45 }} className={styles.buttonConteiner}>
-        <TextField label="Valor Desejado" variant="outlined" size="small"/>
+      <div style={{ marginTop: 65 }} className={styles.buttonConteiner}>
+        <TextField
+          label="Valor Desejado"
+          variant="outlined"
+          size="small"
+          onChange={handleInput}
+          value={input}
+          helperText="Apenas valores entre 300 e 10.000"
+        />
         <Button
-          onClick={sendToApi}
+          onClick={onClickCond}
           variant="contained"
           size="medium"
           color="primary"
@@ -107,7 +130,11 @@ function Borrow({ onClickRow }) {
           Calcular
         </Button>
       </div>
-      <TableContainer component={Paper} className={styles.table}>
+      <TableContainer
+        component={Paper}
+        className={styles.table}
+        style={{ marginTop: 20 }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -161,8 +188,14 @@ function Borrow({ onClickRow }) {
         </Table>
       </TableContainer>
       {state.showBar && (
-        <div className={styles.statusBar}>
-          {state.clickedTableRow.fullValue}
+        <div className={styles.statusBar} >
+          <p style={{ marginRight: 10 }}>Nome: Tabela Padrão</p>
+          <p style={{ marginRight: 10 }}>
+            Parcelas: {state.clickedTableRow.installments}
+          </p>
+          <p style={{ marginRight: 10 }}>
+            Valor da parcela: R${state.clickedTableRow.installmentValue}
+          </p>
           <Button
             component={Link}
             to="/pagamento"
@@ -170,6 +203,7 @@ function Borrow({ onClickRow }) {
             size="medium"
             color="primary"
             className={styles.button}
+            style={{marginTop: 30}}
           >
             Avançar
           </Button>

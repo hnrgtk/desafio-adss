@@ -46,6 +46,7 @@ const Search = props => {
           flexDirection: "column"
         }}
       >
+        {/* eslint-disable-next-line */}
         {props.result != "" ? <CardSearch result={props.result} /> : null}
       </div>
     </>

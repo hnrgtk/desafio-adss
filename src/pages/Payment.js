@@ -2,6 +2,7 @@ import React from "react";
 import { TextField } from "@material-ui/core";
 import { ButtonAi, Header } from "../components";
 import { Link } from "react-router-dom";
+import NumberFormat from "react-number-format";
 
 const Payment = props => {
   const style = {
@@ -10,7 +11,7 @@ const Payment = props => {
     alignItems: "center",
     flexDirection: "column",
     marginTop: 45,
-    fontFamily: "sans-serif",
+    fontFamily: "sans-serif"
   };
 
   const input = {
@@ -26,30 +27,42 @@ const Payment = props => {
     <>
       <Header />
       <div style={style}>
-        <h1>Insira os dados do Cartão</h1>
+        <h1 style={{color: "#228A95"}}>Insira os dados do Cartão</h1>
         <TextField
           style={input}
           label="Nome Completo"
           variant="outlined"
           size="small"
         />
-        <TextField
+        <NumberFormat
+          customInput={TextField}
           style={input}
           label="Número do cartão"
           variant="outlined"
           size="small"
+          isNumericString
+          format="####.####.####.####"
+          mask="_"
         />
-        <TextField
+        <NumberFormat
+          customInput={TextField}
           style={input}
           label="Data de validade"
           variant="outlined"
           size="small"
+          isNumericString
+          format="##/##"
+          mask="_"
         />
-        <TextField
+        <NumberFormat
+          customInput={TextField}
           style={input}
           label="Número de segurança"
           variant="outlined"
           size="small"
+          isNumericString
+          format="###"
+          mask="_"
         />
         <ButtonAi
           component={Link}
