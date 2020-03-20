@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 
 import { Search, Borrow, Payment, Finished } from "./pages/";
-
-import Axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { api } from "./services/axios";
 
 class App extends Component {
   constructor() {
@@ -25,8 +24,8 @@ class App extends Component {
 
   fetchSearchResults = () => {
     const query = this.state.query;
-    Axios.get(
-      "https://my-json-server.typicode.com/hnrtk/desafio-adss/client"
+    api.get(
+      "client"
     ).then(res => {
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].cpf === query) {
