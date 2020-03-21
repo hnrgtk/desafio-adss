@@ -10,18 +10,20 @@ const Payment = props => {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginTop: 45,
+    marginTop: 65,
     fontFamily: "sans-serif"
   };
 
   const input = {
-    marginTop: 16
+    marginTop: 16,
+    width: 400
   };
 
   const button = {
     padding: "8px 75px",
     marginTop: 16,
-    fontSize: 16
+    fontSize: 16,
+    width: 400
   };
   return (
     <>

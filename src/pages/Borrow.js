@@ -39,7 +39,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     background: "#228A95",
     color: "white",
-    fontFamily: "sans-serif"
+    overflowY: "hidden",
+    fontFamily: "sans-serif",
+    fontWeight: 600
   },
   button: {
     background: "#F29C49",
@@ -73,7 +75,9 @@ function Borrow({ onClickRow }) {
 
   const { value, tableData } = state;
 
-  const [input, setInput] = useState(0);
+  const [input, setInput] = useState();
+  const [error, setError] = useState(false);
+
 
   async function sendToApi() {
     const { data } = await api.get("/rateTable/1");
@@ -90,17 +94,17 @@ function Borrow({ onClickRow }) {
   };
 
   function handleInput(e) {
-    setInput(e.target.value);
+    setInput(e.value);
   }
 
   function onClickCond() {
-    if (
-      parseFloat(input.replace(/,/g, ".")) >= 300 &&
-      parseFloat(input.replace(/,/g, ".")) <= 10000
-    ) {
+    let n = input;
+    if (n >= 300 && n <= 10000) {
       sendToApi();
+      setError(false);
     } else {
-      return null;
+      setError(true);
+      setState({...state, tableData: []});
     }
   }
 
@@ -111,7 +115,8 @@ function Borrow({ onClickRow }) {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-        height: "100%"
+        height: "100%",
+        overflowY: "hidden"
       }}
     >
       <Header />
@@ -121,11 +126,15 @@ function Borrow({ onClickRow }) {
           label="Valor Desejado"
           variant="outlined"
           size="small"
-          onChange={handleInput}
+          
+          onValueChange={handleInput}
           value={input}
-          isNumericString
-          // thousandSeparator={true}
+
+          error={error}
+          fixedDecimalScale={2}
+          thousandSeparator="."
           decimalSeparator=","
+          prefix="R$"
           helperText="Apenas valores entre 300 e 10.000"
         />
         <Button
@@ -138,11 +147,13 @@ function Borrow({ onClickRow }) {
           Calcular
         </Button>
       </div>
-      <TableContainer
+      {tableData.length > 0 ? (
+
+        <TableContainer
         component={Paper}
         className={styles.table}
         style={{ marginTop: 20 }}
-      >
+        >
         <Table>
           <TableHead>
             <TableRow>
@@ -155,7 +166,7 @@ function Borrow({ onClickRow }) {
                 }}
                 align="center"
                 colSpan={5}
-              >
+                >
                 Tabela Padrão
               </TableCell>
             </TableRow>
@@ -165,7 +176,7 @@ function Borrow({ onClickRow }) {
                 fontWeight: "bold",
                 fontSize: 24
               }}
-            >
+              >
               <TableCell className={styles.rowHead}>Parcelas</TableCell>
               <TableCell className={styles.rowHead}>Juros da Parcela</TableCell>
               <TableCell className={styles.rowHead}>Valor Parcela</TableCell>
@@ -178,12 +189,12 @@ function Borrow({ onClickRow }) {
           <TableBody>
             {tableData.map(data => (
               <TableRow
-                key={data.id}
-                onClick={() => confirm(data)}
-                className={clsx({
-                  [styles.row]: true,
-                  [styles.selectedRow]: state.clickedTableRow.id === data.id
-                })}
+              key={data.id}
+              onClick={() => confirm(data)}
+              className={clsx({
+                [styles.row]: true,
+                [styles.selectedRow]: state.clickedTableRow.id === data.id
+              })}
               >
                 <TableCell>{data.installments}</TableCell>
                 <TableCell>{data.installmentInterest} % </TableCell>
@@ -195,6 +206,11 @@ function Borrow({ onClickRow }) {
           </TableBody>
         </Table>
       </TableContainer>
+        ) : (
+          <div>
+            <h2 style={{color: "#228A95", fontFamily: "sans-serif"}}>Sem informações</h2>
+          </div>
+        )}
       {state.showBar && (
         <div className={styles.statusBar}>
           <p style={{ marginRight: 10 }}>Nome: Tabela Padrão</p>

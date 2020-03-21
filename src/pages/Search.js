@@ -24,7 +24,7 @@ const Search = props => {
   return (
     <>
       <Header />
-      <div style={{ marginTop: 55 }} className={styles.buttonContainer}>
+      <div style={{ marginTop: 70 }} className={styles.buttonContainer}>
         <NumberFormat
           customInput={TextField}
           label="CPF"
