@@ -57,14 +57,14 @@ const Finished = props => {
               {props.data.installments}
             </Paper>
             <Paper style={paper} elevation={0}>
-              <p style={{ color: "#228A95" }}>Valor da Parcela:</p>{" "}
-              R$ {props.data.installmentValue}
+              <p style={{ color: "#228A95" }}>Valor da Parcela:</p> R${" "}
+              {props.data.installmentValue}
             </Paper>
           </Grid>
           <Grid item xs={12} style={{}}>
             <Paper style={paper} elevation={0}>
-              <p style={{ color: "#228A95" }}>Valor Total do Empréstimo:</p>{" "}
-              R$ {props.data.fullValue}
+              <p style={{ color: "#228A95" }}>Valor Total do Empréstimo:</p> R${" "}
+              {props.data.fullValue}
             </Paper>
           </Grid>
         </Grid>
