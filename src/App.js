@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       query: "",
       result: [],
-      clickedRow: {}
+      clickedRow: {},
+      input: 0
     };
   }
 
@@ -57,7 +58,7 @@ class App extends Component {
             <Payment />
           </Route>
           <Route path="/finalizado">
-            <Finished data={this.state.clickedRow} result={this.state.result} />
+            <Finished data={this.state.clickedRow} result={this.state.result} inputValue={this.state.input}/>
           </Route>
         </Switch>
       </Router>

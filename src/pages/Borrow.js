@@ -65,7 +65,6 @@ const useStyles = makeStyles(theme => ({
 
 function Borrow({ onClickRow }) {
   const [state, setState] = useState({
-    value: 0,
     tableData: [],
     showBar: false,
     clickedTableRow: {}
@@ -73,7 +72,7 @@ function Borrow({ onClickRow }) {
 
   const styles = useStyles();
 
-  const { value, tableData } = state;
+  const { tableData } = state;
 
   const [input, setInput] = useState();
   const [error, setError] = useState(false);
@@ -88,9 +87,10 @@ function Borrow({ onClickRow }) {
     setState(oldState => ({
       ...oldState,
       showBar: true,
-      clickedTableRow: rowData
+      clickedTableRow: rowData,
+      input: input
     }));
-    onClickRow({ clickedRow: rowData, value });
+    onClickRow({ clickedRow: rowData, input: input });
   };
 
   function handleInput(e) {

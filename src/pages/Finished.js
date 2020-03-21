@@ -8,7 +8,7 @@ const Finished = props => {
     marginTop: 15,
     padding: 16,
     fontSize: 14,
-    background: "#228A9509"
+    background: "#228A9510"
   };
 
   const style = {
@@ -35,21 +35,21 @@ const Finished = props => {
         <Grid container spacing={2} style={{ width: 850 }}>
           <Grid item xs={6}>
             <Paper style={paper} elevation={0}>
-              <p style={{ color: "#228A95" }}>Nome completo:</p>{" "}
+              <p style={{ color: "#228A95" }}>Nome Completo:</p>{" "}
               {props.result.name}
             </Paper>
             <Paper style={paper} elevation={0}>
-              <p style={{ color: "#228A95" }}>Número da conta:</p> {cartao}
+              <p style={{ color: "#228A95" }}>Número da Conta:</p> {cartao}
             </Paper>
             <Paper style={paper} elevation={0}>
-              <p style={{ color: "#228A95" }}>Valor Total:</p>
-              {props.data.fullValue}
+              <p style={{ color: "#228A95" }}>Valor Desejado:</p>
+              R$ {props.inputValue}
             </Paper>
           </Grid>
 
           <Grid item xs={6}>
             <Paper style={paper} elevation={0}>
-              <p style={{ color: "#228A95" }}>Taxa de juros:</p>{" "}
+              <p style={{ color: "#228A95" }}>Taxa de Juros:</p>{" "}
               {props.data.installmentInterest}%
             </Paper>
             <Paper style={paper} elevation={0}>
@@ -57,8 +57,14 @@ const Finished = props => {
               {props.data.installments}
             </Paper>
             <Paper style={paper} elevation={0}>
-              <p style={{ color: "#228A95" }}>Valor da parcela:</p>{" "}
-              {props.data.installmentValue}
+              <p style={{ color: "#228A95" }}>Valor da Parcela:</p>{" "}
+              R$ {props.data.installmentValue}
+            </Paper>
+          </Grid>
+          <Grid item xs={12} style={{}}>
+            <Paper style={paper} elevation={0}>
+              <p style={{ color: "#228A95" }}>Valor Total do Empréstimo:</p>{" "}
+              R$ {props.data.fullValue}
             </Paper>
           </Grid>
         </Grid>
